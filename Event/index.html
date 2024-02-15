@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module-25(Event)</title>
+</head>
+
+<body>
+    <h1>Event js</h1>
+    <!-- Project-1:  Create A comment Box and Display Comment -->
+    <h2>Please add Your Comment</h2>
+    <div id="comment-container">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime nobis obcaecati ea, commodi numquam molestiae.</p>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime nobis obcaecati ea, commodi numquam molestiae.</p>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime nobis obcaecati ea, commodi numquam molestiae.</p>
+    </div>
+
+    <div>
+        <textarea id="new-comment" cols="60" rows="5"></textarea>
+        <br>
+        <button id="btn-post">Post</button>
+    </div>
+
+    <script>
+        document.getElementById('btn-post').addEventListener('click', function(){
+            // get the comment
+            const commentBox = document.getElementById('new-comment');
+            const newComment = commentBox.value;
+
+            const commentContainer = document.getElementById('comment-container');
+            const p = document.createElement('p');
+            p.innerText = newComment;
+            commentContainer.appendChild(p)
+
+            // 
+            commentBox.value = '';
+        })
+    </script>
+
+    
+    <!-- Project-2: simple Github like Delete Confirmation Button -->
+
+<h2 id="secret-info">My Secret info</h2>
+<input id="delete-confirm" type="text" placeholder="please type delete">
+<button id="btn-delete" disabled>Delete</button>
+
+
+<script>
+    document.getElementById('delete-confirm').addEventListener('keyup', function(){
+        const text = event.target.value;
+        const deleteButton = document.getElementById('btn-delete');
+        if(text === "delete"){
+            deleteButton.removeAttribute('disabled');
+        }else{
+            deleteButton.setAttribute('disabled', true);
+        }
+    });
+
+    document.getElementById('btn-delete').addEventListener('click', function(){
+        const secret = document.getElementById('secret-info');
+        secret.style.display = 'none';
+    });
+</script>
+
+
+    <!-- Event Bubble and Stop Propagating -->
+
+    <h2>Exploring Event Bubble</h2>
+    <section id="list-container">
+        <ul id="list-ul">
+            <li id="item-1">Lorem, ipsum.</li>
+            <li id="item-2">Nostrum, expedita?</li>
+            <li id="item-3">Blanditiis, dolores.</li>
+            <li id="item-4">Vero, natus.</li>
+            <li id="item-5">At, voluptatibus.</li>
+        </ul>
+    </section>
+
+    <script>
+        document.getElementById('item-2').addEventListener('click', function(event){
+            console.log("item-2 clicked");
+            // event.stopPropagation();
+            event.stopImmediatePropagation();
+        });
+
+        document.getElementById('list-ul').addEventListener('click', function(){
+            console.log('ul clicked');
+        });
+
+        document.getElementById('list-container').addEventListener('click', function(){
+            console.log('section container clicked');
+        });
+
+    </script>
+    
+
+    <!-- Event Delegate and Benefit of Event Bubble -->
+    <h2>Explore Event Delegate</h2>
+    <section>
+        <ul id="list-container">
+            <li class="item">Lorem, ipsum.</li>
+            <li class="item">Asperiores, laborum?</li>
+            <li class="item">Dolor, consectetur.</li>
+            <li class="item">Sit, itaque.</li>
+            <li class="item">Doloribus, ducimus.</li>
+        </ul>
+
+        <button id="btn-add-item">Add New Item</button>
+    </section>
+
+
+    <script>
+        const items = document.getElementsByClassName('item');
+
+        // for(const item of items){
+        //     item.addEventListener('click', function(event){
+        //         // console.log(item);
+        //         // console.log(event.target);
+        //         // console.log(event.target.parentNode);
+
+        //         event.target.parentNode.removeChild(event.target);
+        //     })
+        // }
+
+        document.getElementById('list-container').addEventListener('click', function(event){
+            event.target.parentNode.removeChild(event.target); //it's called event delegation
+        });
+
+        document.getElementById('btn-add-item').addEventListener('click', function(){
+            const listContainer = document.getElementById('list-container');
+
+            const li = document.createElement('li');
+            li.innerText = 'Brand new item added';
+            li.classList.add('item');
+            listContainer.appendChild(li);
+        });
+
+    </script>
+    
+
+    <!-- DOM Events Handlers Summary -->
+    <h2>Explore DOM Events</h2>
+    <button onclick="makeGreen()">Make Green</button>
+    <button id="make-yellow">Make Yellow</button>
+    <br> <br>
+
+    <input id="user-email" type="email">
+
+    <script>
+        // ------ way-1:
+        function makeGreen(){
+            document.body.style.backgroundColor = 'green';
+        }
+
+        // --------- way-2:
+        document.getElementById('make-yellow').addEventListener('click', function(){
+            document.body.style.backgroundColor = 'yellow';
+        });
+
+        document.getElementById('user-email').addEventListener('keyup', function(event){
+            console.log(event.target.value);
+        })
+
+
+    </script>
+
+<script>
+    /*
+    Searching Google or Youtube???
+
+    important documents:
+    https://tinycode.medium.com/10-of-the-most-important-document-events-5fd1879a5a1f
+
+    event bubble:
+    https://www.freecodecamp.org/news/event-bubbling-in-javascript/
+
+    event.stopPropagation():
+
+    event.stopImmediatePropagation():
+
+    HTMLCollection(5): 
+
+    Event Delegate:
+
+    */ 
+</script>
+
+
+</body>
+
+</html>
